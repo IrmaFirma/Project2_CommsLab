@@ -1,2 +1,2 @@
 # Project2_CommsLab
-Irma, Dina &amp; Mariam
+Irma, Dina and Mariam

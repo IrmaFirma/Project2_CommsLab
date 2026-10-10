@@ -1,3 +1,10 @@
+/* fonts: loaded from here so the html files don't need to change */
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Karla:wght@400;700&display=swap");
+
+/* used this documentation to learn more about the grid layouts in css: https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout */
+/* used this documentation to learn more about the flexbox layouts in css: https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Flexbox */
+/* used this documentation to learn more about the cursor property in css: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/cursor */
+
 html, body, header, nav, main, section, figure, figcaption, footer,
 h1, h2, h3, p, ul, a, img, div, button{
   box-sizing: border-box;
@@ -5,15 +12,15 @@ h1, h2, h3, p, ul, a, img, div, button{
   padding: 0;
 }
 
-html{
-  scroll-behavior: smooth;
-}
-
 body{
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Karla", sans-serif;
+  font-size: 1.1rem;
   line-height: 1.5;
-  background: #ffffff;
-  color: #222222;
+  background: #17203a;
+  /* little dots in the background, like comic print */
+  background-image: radial-gradient(#22304f 2px, transparent 2px);
+  background-size: 18px 18px;
+  color: #f3e6c4;
 }
 
 img{
@@ -26,41 +33,65 @@ img{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
   gap: 1rem;
   padding: 1rem 2rem;
-  background: #4a1a0f;
-  color: #f1ece4;
-  position: sticky;   /* header stays on screen while reading */
+  background: #12151c;
+  color: #f3e6c4;
+  border-bottom: 5px solid #d4a23a;  
+  position: sticky; 
   top: 0;
   z-index: 10;
 }
+.site-header h1{
+  font-family: "Alfa Slab One", serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+}
+
 .site-header nav{
   display: flex;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
+
+
 .site-header a{
   color: inherit;
+  text-decoration: none;
+}
+.site-header nav a{
+  padding: 0.3rem 0.8rem;
+  font-weight: bold;
+  border: 3px solid transparent; 
+
+}
+
+
+.site-header nav a:hover{
+  border: 3px solid #d4a23a;
+  background: #d4a23a;
+  color: #12151c;
 }
 
 /* grid: each comic page is a 6 column grid */
 .page{
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 0.75rem;
+  gap: 0.9rem;
   max-width: 1000px;
-  margin: 2rem auto;
-  padding: 0.75rem;
-  background: #fff;
-  border: 3px solid #2a1a14;
-  scroll-margin-top: 90px;   /* so the sticky header doesn't cover the page after a nav click */
+  margin: 2.5rem auto;
+  padding: 1rem;
+  background: #f3e6c4;
+  color: #12151c;
+  border: 4px solid #12151c;
+  box-shadow: 10px 10px 0 #12151c;
 }
+
 
 .panel{
   position: relative;
-  border: 3px solid #2a1a14;
+  border: 4px solid #12151c;
   overflow: hidden;
-  background: #ddd;
+  background: #12151c;
 }
 
 .panel img{
@@ -70,8 +101,8 @@ img{
   display: block;
 }
 
-/* page 1: wide mosque on top, then two panels side by side */
-.p-mosque{
+/* page 1 */
+.p-home{
   grid-column: span 6;
   aspect-ratio: 16 / 7;
 }
@@ -80,11 +111,13 @@ img{
   aspect-ratio: 16 / 9;
 }
 
-/* page 2: wide owl on top, then kneel, wand and the choice box */
+/* page 2 */
 .p-owl{
   grid-column: span 6;
   aspect-ratio: 16 / 7;
 }
+
+
 .p-kneel, .p-wand, .choice-box{
   grid-column: span 2;
   aspect-ratio: 1;
@@ -98,34 +131,44 @@ img{
   justify-content: center;
   padding: 2rem;
   text-align: center;
-  background: #f1ece4;
+  font-family: "Alfa Slab One", serif;
+  font-size: 1.4rem;
+  background: #2f4a2f;
+  color: #f3e6c4;
 }
 
-/* ---- interactions ---- */
+/* interactions */
 
 /* click to swap the picture */
 .swap{
   cursor: pointer;
 }
 
-/* caption slides up on hover (or on tap, see script.js) */
+/* caption slides up on hover, yellow box like an old comic */
 .panel figcaption{
   position: absolute;
   bottom: 0;
   left: 0;
-  background: #f1ece4;
-  border: 3px solid #2a1a14;
-  padding: 0.4rem 0.8rem;
+  background: #d4a23a;
+  color: #12151c;
+  font-weight: bold;
+  border-top: 4px solid #12151c;
+  border-right: 4px solid #12151c;
+  padding: 0.4rem 0.9rem;
   transform: translateY(110%);
   transition: transform 0.3s;
 }
-.panel:hover figcaption,
-.panel.show figcaption{
+.panel:hover figcaption{
   transform: translateY(0);
 }
 
-/* branching ending */
+/* branching ending, and the hidden second picture in swap panels */
 .hidden{
+  display: none;
+}
+/* ".panel img" above sets display: block and is stronger than ".hidden",
+   so images need their own rule to be hidden */
+.panel img.hidden{
   display: none;
 }
 
@@ -136,23 +179,94 @@ img{
   gap: 1rem;
   padding: 1rem;
   text-align: center;
-  background: #f1ece4;
+  background: #2f4a2f;
+  color: #f3e6c4;
+}
+
+
+.choice-box p{
+  font-family: "Alfa Slab One", serif;
+  font-size: 1.2rem;
 }
 .choice-box button{
   padding: 0.6rem;
+  font-family: "Karla", sans-serif;
   font-size: 1rem;
-  background: #4a1a0f;
-  color: #f1ece4;
-  border: 3px solid #2a1a14;
+  font-weight: bold;
+  background: #d4a23a;
+  color: #12151c;
+  border: 3px solid #12151c;
   cursor: pointer;
 }
 .choice-box button:hover{
-  background: #2a1a14;
+  background: #f3e6c4;
 }
+
 
 .site-footer{
   text-align: center;
   padding: 1.5rem;
-  background: #4a1a0f;
-  color: #f1ece4;
+  background: #12151c;
+  color: #f3e6c4;
+  border-top: 5px solid #d4a23a;
+}
+
+/* welcome page */
+.welcome{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  color: #f3e6c4;
+  background-color: #17203a;
+  background-image: url("assets/background.png"), radial-gradient(#22304f 2px, transparent 2px);
+  background-size: cover, 18px 18px;
+  background-position: center;
+  transition: opacity 0.6s;
+}
+
+
+.welcome h1{
+  font-family: "Alfa Slab One", serif;
+  font-weight: 400;
+  font-size: 4.5rem;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.welcome p{
+  max-width: 500px;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+}
+.start-button{
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: #d4a23a;
+  color: #12151c;
+  font-weight: bold;
+  text-decoration: none;
+  border: 4px solid #12151c;
+  box-shadow: 6px 6px 0 #12151c;
+}
+.start-button:hover{
+  background: #f3e6c4;
+}
+
+/* added by welcome.js when the button is pressed */
+.fade-out{
+  opacity: 0;
+}
+
+/* extra text on the welcome page */
+.welcome .hint-text{
+  font-style: italic;
+  color: #d4a23a;
+}
+.welcome .credit{
+  margin-top: 2.5rem;
+  margin-bottom: 0;
+  font-size: 0.95rem;
 }

@@ -1,33 +1,30 @@
-// ---------- 1. CLICK TO SWAP THE PICTURE ----------
+// 1. CLICK TO SWAP THE PICTURE
 
-// this function gets one image and makes it swap when clicked
-function makeImageSwap(img) {
-  let firstPicture = img.getAttribute("src");
-  let secondPicture = img.dataset.alt;
-  let showingSecond = false;
+// each swap panel has two pictures inside it, the second one starts hidden
+// this function makes a panel switch which picture is hidden when it is clicked
+function makePanelSwap(panel) {
+  let pictures = panel.querySelectorAll("img");
 
   function swapPicture() {
-    if (showingSecond === false) {
-      img.src = secondPicture;
-      showingSecond = true;
-    } else {
-      img.src = firstPicture;
-      showingSecond = false;
+    for (let i = 0; i < pictures.length; i = i + 1) {
+      pictures[i].classList.toggle("hidden");
     }
   }
 
-  img.addEventListener("click", swapPicture);
+  panel.addEventListener("click", swapPicture);
 }
 
-// find every image inside a panel that has the class "swap"
-let swapImages = document.querySelectorAll(".swap img");
+// find every panel that has the class "swap"
+let swapPanels = document.querySelectorAll(".swap");
 
-for (let i = 0; i < swapImages.length; i = i + 1) {
-  makeImageSwap(swapImages[i]);
+for (let i = 0; i < swapPanels.length; i = i + 1) {
+  makePanelSwap(swapPanels[i]);
 }
 
 
-// ---------- 2. PICK AN ENDING ----------
+// 2. PICK AN ENDING
+
+// used this documentation to learn more about the classList property: https://mangohost.net/blog/javascript-classlist-how-to-manipulate-classes-easily/
 
 let buttonA = document.getElementById("button-a");
 let buttonB = document.getElementById("button-b");

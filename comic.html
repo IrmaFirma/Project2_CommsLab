@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Brew and the Beak - Main</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- used this documentation to learn about the figure element: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/figure -->
+  <!-- used this documentation to learn about the figcaption element: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/figcaption -->
+  <!-- used this documentation to learn about the footer element: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/footer -->
+
+
+  <header class="site-header">
+    <h1><a href="index.html">The Brew and the Beak</a></h1>
+
+    <!-- navigation links to the welcome page, each comic page and the credits -->
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#team">Team</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- PAGE 1: the building, the empty hall, the meeting -->
+    <section class="page" id="page-1">
+
+      <!-- panel 1 -->
+      <figure class="panel p-home">
+        <img src="assets/1.png">
+        <figcaption>Write the line here</figcaption>
+      </figure>
+
+      <!-- panel 2: click to show who is sitting on the stairs -->
+      <figure class="panel p-hall swap">
+        <img src="assets/2.png">
+        <img class="hidden" src="assets/3.png">
+      </figure>
+
+      <!-- panel 3 -->
+      <figure class="panel p-meeting">
+        <img src="assets/3.png">
+        <figcaption>Write the line here</figcaption>
+      </figure>
+
+    </section>
+
+    <!-- PAGE 2: the owl -->
+    <section class="page" id="page-2">
+
+      <!-- panel 4: click to put the cape on -->
+      <figure class="panel p-owl swap">
+        <img src="assets/4.png">
+        <img class="hidden" src="assets/6.png">
+      </figure>
+
+      <!-- panel 5 -->
+      <figure class="panel p-kneel">
+        <img src="assets/5.png">
+        <figcaption>Write the line here</figcaption>
+      </figure>
+
+      <!-- panel 6 -->
+      <figure class="panel p-wand">
+        <img src="assets/6.png">
+      </figure>
+
+      <!-- the reader picks an ending -->
+      <div class="panel choice-box">
+        <p>What does he do?</p>
+        <button id="button-a">Option A</button>
+        <button id="button-b">Option B</button>
+      </div>
+
+      <!-- both endings start hidden, one shows when a button is clicked -->
+      <div class="panel p-ending hidden" id="end-a">
+        <p>Write ending A here</p>
+      </div>
+
+      <div class="panel p-ending hidden" id="end-b">
+        <p>Write ending B here</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="site-footer" id="team">
+    <p>Mariam, Dina and Irma</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
