@@ -70,60 +70,35 @@ img{
   display: block;
 }
 
-/* pg1: wide panel on top, then three smaller ones */
-.p-night{
+/* page 1: wide mosque on top, then two panels side by side */
+.p-mosque{
   grid-column: span 6;
   aspect-ratio: 16 / 7;
 }
-.p-cauldron{
-  grid-column: span 2;
-  aspect-ratio: 1;
-}
-.p-spill{
-  grid-column: span 2;
-  aspect-ratio: 1;
-}
-.p-together{
-  grid-column: span 2;
-  aspect-ratio: 1;
-}
-
-/* pg2: tall panel on the left, small ones stacked on the right */
-.p-talking{
-  grid-column: span 4;
-  grid-row: span 2;
-}
-.p-cage{
-  grid-column: span 2;
-  aspect-ratio: 1;
-}
-.p-home{
-  grid-column: span 2;
-  aspect-ratio: 1;
-}
-.p-feathers{
-  grid-column: span 6;
-  aspect-ratio: 16 / 7;
-}
-
-/* pg3 */
-.p-big, .p-befriend{
-  grid-column: span 3;
-  aspect-ratio: 1;
-}
-.p-throne, .p-powers{
+.p-hall, .p-meeting{
   grid-column: span 3;
   aspect-ratio: 16 / 9;
 }
 
-/* pg4: three squares, then the choice box and the ending */
-.p-sq{
+/* page 2: wide owl on top, then kneel, wand and the choice box */
+.p-owl{
+  grid-column: span 6;
+  aspect-ratio: 16 / 7;
+}
+.p-kneel, .p-wand, .choice-box{
   grid-column: span 2;
   aspect-ratio: 1;
 }
+
+/* the ending text boxes */
 .p-ending{
-  grid-column: span 4;
-  aspect-ratio: 2 / 1;
+  grid-column: span 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  background: #f1ece4;
 }
 
 /* ---- interactions ---- */
