@@ -8,12 +8,10 @@
 </head>
 <body>
 
-    <!-- used this documentation to learn about the figure element: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/figure -->
-  
-    <header class="site-header">
+  <!-- used this documentation to learn about the figure element: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/figure -->
+
+  <header class="site-header">
     <h1>Comic Title Placeholder</h1>
-
-
 
     <!-- navigation links to each page and the credits section -->
     <nav>
@@ -21,48 +19,106 @@
       <a href="#page-2">Page 2</a>
       <a href="#page-3">Page 3</a>
       <a href="#page-4">Page 4</a>
-      <a href="#team">Team</a>  <!-- have to fix this navigation -->
-
+      <a href="#team">Team</a>
     </nav>
   </header>
 
   <main>
-    <!-- pg1-->
+    <!-- pg1 -->
     <section class="page" id="page-1">
-      <figure class="panel p-night"><img src="assets/night-sky.png" alt="Placeholder"></figure>
-      <figure class="panel p-cauldron"><img src="assets/cauldron.png" alt="Placeholder"></figure>
-      <figure class="panel p-spill"><img src="assets/spill.png" alt="Placeholder"></figure>
-      <figure class="panel p-together"><img src="assets/together.jpeg" alt="Placeholder"></figure>
+      <figure class="panel p-night">
+        <img src="assets/p1-night-sky.png" alt="Describe the night sky panel">
+      </figure>
+
+      <figure class="panel p-cauldron">
+        <img src="assets/p1-cauldron.png" alt="Describe the cauldron panel">
+        <figcaption>Write the line here</figcaption>
+      </figure>
+
+      <!-- click this panel to swap the picture -->
+      <figure class="panel p-spill swap">
+        <img src="assets/p1-spill.png" data-alt="assets/p1-spill-after.png" alt="Describe the spill panel">
+      </figure>
+
+      <figure class="panel p-together">
+        <img src="assets/p1-together.png" alt="Describe the together panel">
+      </figure>
     </section>
 
-    <!-- pg2-->
+    <!-- pg2 -->
     <section class="page" id="page-2">
-      <figure class="panel p-talking"><img src="assets/talking.jpeg" alt="Placeholder"></figure>
-      <figure class="panel p-cage"><img src="assets/owl-cage.png" alt="Placeholder"></figure>
-      <figure class="panel p-home"><img src="assets/home.jpeg" alt="Placeholder"></figure>
-      <figure class="panel p-feathers"><img src="assets/feathers.png" alt="Placeholder"></figure>
+      <figure class="panel p-talking">
+        <img src="assets/p2-talking.png" alt="Describe the talking panel">
+        <figcaption>Write the line here</figcaption>
+      </figure>
+
+      <figure class="panel p-cage">
+        <img src="assets/p2-owl-cage.png" alt="Describe the owl in the cage">
+        <figcaption>Write the owl's line here</figcaption>
+      </figure>
+
+      <figure class="panel p-home">
+        <img src="assets/p2-home.png" alt="Describe the home panel">
+      </figure>
+
+      <figure class="panel p-feathers">
+        <img src="assets/p2-feathers.png" alt="Describe the feathers panel">
+      </figure>
     </section>
+
     <!-- pg3 -->
     <section class="page" id="page-3">
-      <figure class="panel p-big"><img src="assets/big.jpeg" alt="Placeholder"></figure>
-      <figure class="panel p-befriend"><img src="assets/befriend.jpeg" alt="Placeholder"></figure>
-      <figure class="panel p-throne"><img src="assets/throne.jpeg" alt="Placeholder"></figure>
-      <figure class="panel p-powers"><img src="assets/powers.jpeg" alt="Placeholder"></figure>
+      <figure class="panel p-big">
+        <img src="assets/p3-big.png" alt="Describe the big panel">
+      </figure>
+
+      <figure class="panel p-befriend">
+        <img src="assets/p3-befriend.png" alt="Describe the befriend panel">
+      </figure>
+
+      <figure class="panel p-throne">
+        <img src="assets/p3-throne.png" alt="Describe the throne panel">
+      </figure>
+
+      <figure class="panel p-powers">
+        <img src="assets/p3-powers.png" alt="Describe the powers panel">
+      </figure>
     </section>
 
     <!-- pg4 -->
     <section class="page" id="page-4">
-      <figure class="panel p-sq"><img src="assets/convo.png" alt="Placeholder"></figure>
-      <figure class="panel p-sq"><img src="assets/cup.png" alt="Placeholder"></figure>
-      <figure class="panel p-sq"><img src="assets/more-spill.png" alt="Placeholder"></figure>
-      <div class="panel placeholder p-sq"><p>Panel 8<br>coming soon</p></div>
-      <div class="panel placeholder p-sq"><p>Panel 9<br>coming soon</p></div>
-      <div class="panel placeholder p-sq"><p>Panel 10<br>coming soon</p></div>
+      <figure class="panel p-sq">
+        <img src="assets/p4-convo.png" alt="Describe the conversation panel">
+      </figure>
+
+      <figure class="panel p-sq">
+        <img src="assets/p4-cup.png" alt="Describe the cup panel">
+      </figure>
+
+      <figure class="panel p-sq">
+        <img src="assets/p4-more-spill.png" alt="Describe the second spill panel">
+      </figure>
+
+      <!-- the reader picks an ending -->
+      <div class="panel p-sq choice-box">
+        <p>What happens next?</p>
+        <button data-show="end-a">Option A</button>
+        <button data-show="end-b">Option B</button>
+      </div>
+
+      <!-- both endings start hidden, one is shown when a button is clicked -->
+      <figure class="panel p-ending hidden" id="end-a">
+        <img src="assets/p4-ending-a.png" alt="Describe ending A">
+      </figure>
+
+      <figure class="panel p-ending hidden" id="end-b">
+        <img src="assets/p4-ending-b.png" alt="Describe ending B">
+      </figure>
     </section>
   </main>
 
   <footer class="site-footer" id="team">
-    <p>Irma, Dina & Mariam</p>
+    <p>Irma, Dina and Mariam</p>
   </footer>
 
 </body>

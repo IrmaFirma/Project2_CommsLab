@@ -1,8 +1,12 @@
-html, body, header, nav, main, section, figure, footer,
-h1, h2, h3, p, ul, a, img, div{
+html, body, header, nav, main, section, figure, figcaption, footer,
+h1, h2, h3, p, ul, a, img, div, button{
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html{
+  scroll-behavior: smooth;
 }
 
 body{
@@ -27,13 +31,16 @@ img{
   padding: 1rem 2rem;
   background: #4a1a0f;
   color: #f1ece4;
+  position: sticky;   /* header stays on screen while reading */
+  top: 0;
+  z-index: 10;
 }
 .site-header nav{
-    display: flex; 
-    gap: 1.25rem; 
+  display: flex;
+  gap: 1.25rem;
 }
 .site-header a{
-    color: inherit; 
+  color: inherit;
 }
 
 /* grid: each comic page is a 6 column grid */
@@ -46,86 +53,131 @@ img{
   padding: 0.75rem;
   background: #fff;
   border: 3px solid #2a1a14;
+  scroll-margin-top: 90px;   /* so the sticky header doesn't cover the page after a nav click */
 }
 
-.panel{ 
-    border: 3px solid #2a1a14; 
-    overflow: hidden; 
-    background: #ddd; 
+.panel{
+  position: relative;
+  border: 3px solid #2a1a14;
+  overflow: hidden;
+  background: #ddd;
 }
 
-.panel img{ 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    display: block; 
+.panel img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* pg1: wide panel on top, then three smaller ones */
-.p-night{ 
-    grid-column: span 6; 
-    aspect-ratio: 16 / 7; 
+.p-night{
+  grid-column: span 6;
+  aspect-ratio: 16 / 7;
 }
-.p-cauldron{ 
-    grid-column: span 2; 
-    aspect-ratio: 1; 
+.p-cauldron{
+  grid-column: span 2;
+  aspect-ratio: 1;
 }
-.p-spill{ 
-    grid-column: span 2; 
-    aspect-ratio: 1; 
+.p-spill{
+  grid-column: span 2;
+  aspect-ratio: 1;
 }
-.p-together{ 
-    grid-column: span 2; 
-    aspect-ratio: 1; 
+.p-together{
+  grid-column: span 2;
+  aspect-ratio: 1;
 }
 
 /* pg2: tall panel on the left, small ones stacked on the right */
 .p-talking{
-    grid-column: span 4; 
-    grid-row: span 2; 
+  grid-column: span 4;
+  grid-row: span 2;
 }
-.p-cage{ 
-    grid-column: span 2; 
-    aspect-ratio: 1; 
+.p-cage{
+  grid-column: span 2;
+  aspect-ratio: 1;
 }
-.p-home{ 
-    grid-column: span 2; 
-    aspect-ratio: 1; 
+.p-home{
+  grid-column: span 2;
+  aspect-ratio: 1;
 }
-.p-feathers{ 
-    grid-column: span 6; 
-    aspect-ratio: 16 / 7; 
+.p-feathers{
+  grid-column: span 6;
+  aspect-ratio: 16 / 7;
 }
-
 
 /* pg3 */
-.p-big, .p-befriend{ 
-    grid-column: span 3; 
-    aspect-ratio: 1; 
+.p-big, .p-befriend{
+  grid-column: span 3;
+  aspect-ratio: 1;
 }
 .p-throne, .p-powers{
-    grid-column: span 3; 
-    aspect-ratio: 16 / 9;
+  grid-column: span 3;
+  aspect-ratio: 16 / 9;
 }
 
-/* pg4: six equal squares, last three are placeholders */
+/* pg4: three squares, then the choice box and the ending */
 .p-sq{
-    grid-column: span 2;
-    aspect-ratio: 1; 
+  grid-column: span 2;
+  aspect-ratio: 1;
+}
+.p-ending{
+  grid-column: span 4;
+  aspect-ratio: 2 / 1;
 }
 
-.placeholder{
+/* ---- interactions ---- */
+
+/* click to swap the picture */
+.swap{
+  cursor: pointer;
+}
+
+/* caption slides up on hover (or on tap, see script.js) */
+.panel figcaption{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #f1ece4;
+  border: 3px solid #2a1a14;
+  padding: 0.4rem 0.8rem;
+  transform: translateY(110%);
+  transition: transform 0.3s;
+}
+.panel:hover figcaption,
+.panel.show figcaption{
+  transform: translateY(0);
+}
+
+/* branching ending */
+.hidden{
+  display: none;
+}
+
+.choice-box{
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
   text-align: center;
-  border-style: dashed;
-  color: #6b5a50;
+  background: #f1ece4;
+}
+.choice-box button{
+  padding: 0.6rem;
+  font-size: 1rem;
+  background: #4a1a0f;
+  color: #f1ece4;
+  border: 3px solid #2a1a14;
+  cursor: pointer;
+}
+.choice-box button:hover{
+  background: #2a1a14;
 }
 
-.site-footer{ 
-    text-align: center; 
-    padding: 1.5rem; 
-    background: #4a1a0f; 
-    color: #f1ece4; 
+.site-footer{
+  text-align: center;
+  padding: 1.5rem;
+  background: #4a1a0f;
+  color: #f1ece4;
 }
