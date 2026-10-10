@@ -25,25 +25,32 @@
 
   <main>
 
-    <!-- PAGE 1: the building, the empty hall, the meeting -->
-    <section class="page" id="page-1">
+<main>
 
-      <!-- panel 1 -->
-      <figure class="panel p-home">
-        <img src="assets/1.png">
-        <figcaption>Write the line here</figcaption>
-      </figure>
+    <!-- PAGE 1: a click-through, narrated sequence  -->
+    <!-- "stage" holds one picture at a time; clicking or, for some steps, waiting advances
+         it to the next panel in the page.  -->
+    <section class="page page-stage" id="page-1">
 
-      <!-- panel 2: click to show who is sitting on the stairs -->
-      <figure class="panel p-hall swap">
-        <img src="assets/2.png">
-        <img class="hidden" src="assets/alone_aziza.png">
-      </figure>
+      <figure class="panel stage" id="story-stage">
 
-      <!-- panel 3 -->
-      <figure class="panel p-meeting">
-        <img src="assets/3.png">
-        <figcaption>Write the line here</figcaption>
+        <img class="stage-layer active" id="stage-img-a" src="assets/page1_panel1.png">
+        <img class="stage-layer" id="stage-img-b" src="assets/page1_panel2.png">
+
+        <!-- placeholder smoke transition: swap for the real cloud/smoke asset later -->
+        <div class="smoke" id="smoke-overlay">
+          <div class="smoke-circle left"></div>
+          <div class="smoke-circle right"></div>
+        </div>
+
+        <!-- opening line, shown over the smoke -->
+        <div class="smoke-line" id="smoke-caption">
+          <p id="smoke-caption-text"></p>
+        </div>
+
+        <!-- every line after that -->
+        <figcaption id="stage-caption">Write the line here</figcaption>
+
       </figure>
 
     </section>
