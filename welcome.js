@@ -1,6 +1,8 @@
 // when the start button is pressed, fade the welcome page out
 // and then go to the comic page
 
+// used this documentation to learn more about the classList property: https://mangohost.net/blog/javascript-classlist-how-to-manipulate-classes-easily/
+
 let startButton = document.getElementById("start-button");
 
 function startReading(event) {
