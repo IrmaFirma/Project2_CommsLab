@@ -72,6 +72,18 @@ if (stage) {
     { img: "assets/page1_panel6.png", caption: "And if you fail...", side: "left", transition: "fade", trigger: "auto", delay: 1500 }
   ];
 
+  // load every panel's picture right away, the same reason the flood
+  // section at the bottom of this file preloads its pictures - setting an
+  // <img>'s src for the first time mid-transition (like swapImage below
+  // does) only looks instant on a local file. deployed on the actual
+  // internet, that image is a real network request, so without this the
+  // crossfade's opacity transition finishes before the picture has even
+  // arrived and it just pops in late instead of fading in smoothly
+  for (let i = 0; i < steps.length; i = i + 1) {
+    let preload = new Image();
+    preload.src = steps[i].img;
+  }
+
   // only show the pointer cursor when the next step is waiting on a click
   function updateClickability() {
     let next = steps[currentStepIndex + 1];
@@ -348,6 +360,13 @@ if (page3Stage) {
     { img: "assets/page3_panel3.png", transition: "fade" }
   ];
 
+  // load every panel's picture right away - see the matching comment on
+  // page 1's "steps" array for why this matters once this is deployed
+  for (let i = 0; i < page3Steps.length; i = i + 1) {
+    let preload = new Image();
+    preload.src = page3Steps[i].img;
+  }
+
   page3Stage.classList.add("clickable");
 
   // same crossfade-by-swapping-layers idea as swapImage() in section 1
@@ -446,6 +465,21 @@ if (page5Stage) {
   let page5StepIndex = 0;
   let page5Steps = null;
   let page5Started = false;
+
+  // load every picture both endings could need, right away - the actual
+  // path isn't known yet at this point (storyPath isn't set until page5Start
+  // runs), so this preloads all six rather than guessing. see the matching
+  // comment on page 1's "steps" array for why this matters once this is
+  // deployed, instead of just tested from a local file
+  let page5AllPictures = [
+    "assets/page5_panel1.png", "assets/page5_panel2.png",
+    "assets/page5_panel3A.png", "assets/page5_panel3B.png",
+    "assets/page5_panel4A.png", "assets/page5_panel4B.png"
+  ];
+  for (let i = 0; i < page5AllPictures.length; i = i + 1) {
+    let preload = new Image();
+    preload.src = page5AllPictures[i];
+  }
 
   // same crossfade-by-swapping-layers idea as swapImage() in section 1
   function page5SwapImage(src) {
