@@ -238,6 +238,10 @@ buttonA.addEventListener("click", showEndingA);
 buttonB.addEventListener("click", showEndingB);
 
 // FLOOD ANIMATION: click the image and it flips through the three images by itself
+// used this to debug preloading images: https://stackoverflow.com/questions/3646036/preloading-images-with-javascript
+// read more about clearInterval here: https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval
+// read more about setInterval here: https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval
+
 
 let floodImg = document.getElementById("flood-img");
 let floodPictures = ["assets/flood1.jpg", "assets/flood2.jpg", "assets/flood3.jpg"];
