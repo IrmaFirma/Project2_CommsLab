@@ -1,3 +1,31 @@
+// SHARED: AUTO-SCROLL TO THE NEXT PAGE
+
+// once a reader is done with a page, wait a couple of seconds and smooth-scroll
+// down to whichever ".page" section comes right after it - skips over
+// anything in between (like the footer) that isn't itself a ".page"
+function autoScrollToNextPage(currentPage, delay) {
+  if (!currentPage) {
+    return;
+  }
+
+  // used this documentation to learn about Element.nextElementSibling: https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling
+  // it walks forward through the HTML one element at a time; how we find 
+  // the very next ".page" even if something non-".page" sits in between
+  let next = currentPage.nextElementSibling;
+  while (next && !next.classList.contains("page")) {
+    next = next.nextElementSibling;
+  }
+
+  if (next) {
+    setTimeout(function () {
+      // used this documentation to learn about Element.scrollIntoView and its options object: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+      // makes sure it doesn't scroll further than it needs to. centering it stops short of that.
+      next.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, delay);
+  }
+}
+
+
 // 1. PAGE 1: CLICK-THROUGH STORY SEQUENCE
 
 // the stage shows one picture at a time. "steps" lists in order every picture 
@@ -161,6 +189,13 @@ if (stage) {
         isTransitioning = false;
         updateClickability();
         scheduleNext();
+        // used this documentation to learn about Element.closest: https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
+        // "stage" is the figure inside the page's section, not the section itself -
+        // closest(".page") walks back up the HTML to find that wrapping section
+        // no step after this one means the story is over
+        if (!steps[index + 1]) {
+          autoScrollToNextPage(stage.closest(".page"), 2000);
+        }
       }, 4900);
 
     } else {
@@ -176,6 +211,10 @@ if (stage) {
         isTransitioning = false;
         updateClickability();
         scheduleNext();
+        // no step after this one means the story is over
+        if (!steps[index + 1]) {
+          autoScrollToNextPage(stage.closest(".page"), 2000);
+        }
       }, 800);
     }
   }
@@ -195,17 +234,28 @@ if (stage) {
 
 // panel 1 starts covering the whole area. clicking it fades it out and
 // fades the two choice panels in, in the same spot. which pathway the
-// reader picks comes later - for now this just handles the transition
-// between panel 1 and the choices (hover highlight + caption on each
-// choice is handled by styles.css alone, no JS needed for that part)
+// reader picks comes later
 let owlPanel = document.getElementById("owl-panel");
 let choiceRow = document.getElementById("choice-row");
+let choiceA = document.getElementById("choice-a");
+let choiceB = document.getElementById("choice-b");
 
 if (owlPanel && choiceRow) {
   owlPanel.addEventListener("click", function () {
     owlPanel.classList.add("faded");
     choiceRow.classList.add("visible");
   });
+}
+
+// picking either choice is "done" with page 2 for now, even though which pathway it leads to 
+// isn't built yet, so that's what triggers the auto-scroll on to the next page
+if (choiceA && choiceB) {
+  function handleChoicePicked() {
+    autoScrollToNextPage(choiceA.closest(".page"), 2000);
+  }
+
+  choiceA.addEventListener("click", handleChoicePicked);
+  choiceB.addEventListener("click", handleChoicePicked);
 }
 
 
