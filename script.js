@@ -385,7 +385,7 @@ if (page3Stage) {
 
 
 let floodImg = document.getElementById("flood-img");
-let floodPictures = ["assets/flood1.jpg", "assets/flood2.jpg", "assets/flood3.jpg"];
+let floodPictures = ["assets/flood1.jpg", "assets/flood2.jpg", "assets/flood3.jpg", "assets/flood4.jpg"];
 let floodNumber = 0;
 let floodTimer = null;
 
