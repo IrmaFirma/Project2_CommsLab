@@ -1,6 +1,7 @@
 // SHARED: AUTO-SCROLL TO THE NEXT PAGE
 
-// once a reader is done with a page, wait a couple of seconds and smooth-scroll
+// once a reader is done with a page (the story finishes, a choice gets
+// picked, the flood plays out), wait a couple of seconds and smooth-scroll
 // down to whichever ".page" section comes right after it - skips over
 // anything in between (like the footer) that isn't itself a ".page"
 function autoScrollToNextPage(currentPage, delay) {
@@ -9,8 +10,8 @@ function autoScrollToNextPage(currentPage, delay) {
   }
 
   // used this documentation to learn about Element.nextElementSibling: https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling
-  // it walks forward through the HTML one element at a time; how we find 
-  // the very next ".page" even if something non-".page" sits in between
+  // it walks forward through the HTML one element at a time, which is how we
+  // find the very next ".page" even if something non-".page" sits in between
   let next = currentPage.nextElementSibling;
   while (next && !next.classList.contains("page")) {
     next = next.nextElementSibling;
@@ -19,7 +20,10 @@ function autoScrollToNextPage(currentPage, delay) {
   if (next) {
     setTimeout(function () {
       // used this documentation to learn about Element.scrollIntoView and its options object: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
-      // makes sure it doesn't scroll further than it needs to. centering it stops short of that.
+      // "block: center" matters here - with no options scrollIntoView
+      // defaults to aligning the section's top edge to the viewport's
+      // top edge, which (with the margin above each .page) scrolls
+      // further than it needs to. centering it stops short of that.
       next.scrollIntoView({ behavior: "smooth", block: "center" });
     }, delay);
   }
@@ -234,7 +238,9 @@ if (stage) {
 
 // panel 1 starts covering the whole area. clicking it fades it out and
 // fades the two choice panels in, in the same spot. which pathway the
-// reader picks comes later
+// reader picks comes later - for now this just handles the transition
+// between panel 1 and the choices (hover highlight + caption on each
+// choice is handled by styles.css alone, no JS needed for that part)
 let owlPanel = document.getElementById("owl-panel");
 let choiceRow = document.getElementById("choice-row");
 let choiceA = document.getElementById("choice-a");
@@ -247,8 +253,9 @@ if (owlPanel && choiceRow) {
   });
 }
 
-// picking either choice is "done" with page 2 for now, even though which pathway it leads to 
-// isn't built yet, so that's what triggers the auto-scroll on to the next page
+// picking either choice is "done" with page 2 for now, even though which
+// pathway it leads to isn't built yet - so that's what triggers the
+// auto-scroll on to the next page
 if (choiceA && choiceB) {
   function handleChoicePicked() {
     autoScrollToNextPage(choiceA.closest(".page"), 2000);
@@ -308,6 +315,68 @@ if (buttonA && buttonB) {
   buttonA.addEventListener("click", showEndingA);
   buttonB.addEventListener("click", showEndingB);
 }
+
+
+// 5. PAGE 3: PANEL 1 ZOOMS INTO PANEL 2, THEN CROSSFADES INTO PANEL 3
+
+// same two-layer crossfade setup as page 1's stage, reusing the same .stage/.stage-layer CSS
+let page3Stage = document.getElementById("page3-stage");
+
+if (page3Stage) {
+  let page3LayerA = document.getElementById("page3-img-a");
+  let page3LayerB = document.getElementById("page3-img-b");
+  let page3ActiveLayer = page3LayerA;
+  let page3InactiveLayer = page3LayerB;
+
+  let page3StepIndex = 0;
+  let page3Steps = [
+    { img: "assets/page3_panel1.png" },
+    { img: "assets/page3_panel2.png", transition: "zoom" },
+    { img: "assets/page3_panel3.png", transition: "fade" }
+  ];
+
+  page3Stage.classList.add("clickable");
+
+  // same crossfade-by-swapping-layers idea as swapImage() in section 1
+  function page3SwapImage(src) {
+    page3InactiveLayer.src = src;
+    page3ActiveLayer.classList.remove("active");
+    page3InactiveLayer.classList.add("active");
+    let temp = page3ActiveLayer;
+    page3ActiveLayer = page3InactiveLayer;
+    page3InactiveLayer = temp;
+  }
+
+  page3Stage.addEventListener("click", function () {
+    let next = page3Steps[page3StepIndex + 1];
+    if (!next) {
+      return;
+    }
+
+    if (next.transition === "zoom") {
+      // scales the current (outgoing) picture up while page3SwapImage fades
+      // it out, instead of the plain crossfade the other transition uses
+      page3ActiveLayer.classList.add("zoom-out");
+    }
+
+    page3SwapImage(next.img);
+    page3StepIndex = page3StepIndex + 1;
+
+    // page3SwapImage already swapped the layer references above, so
+    // page3InactiveLayer now points at the picture that just zoomed out
+    // clean its zoom-out class off once the transition is done
+    setTimeout(function () {
+      page3InactiveLayer.classList.remove("zoom-out");
+    }, 800);
+
+    // no step after this one means page 3 is done
+    if (!page3Steps[page3StepIndex + 1]) {
+      page3Stage.classList.remove("clickable");
+      autoScrollToNextPage(page3Stage.closest(".page"), 2000);
+    }
+  });
+}
+
 
 // FLOOD ANIMATION: click the image and it flips through the three images by itself
 // used this to debug preloading images: https://stackoverflow.com/questions/3646036/preloading-images-with-javascript
