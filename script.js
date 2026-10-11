@@ -344,8 +344,16 @@ if (page3Stage) {
   let page3StepIndex = 0;
   let page3Steps = [
     { img: "assets/page3_panel1.png" },
-    { img: "assets/page3_panel2.png", transition: "zoom" },
-    { img: "assets/page3_panel3.png", transition: "fade" }
+    { img: "assets/page3_pour/page3_pour01.png"},
+    { img: "assets/page3_pour/page3_pour02.png"},
+    { img: "assets/page3_pour/page3_pour03.png"},
+    { img: "assets/page3_pour/page3_pour04.png"},
+    { img: "assets/page3_pour/page3_pour05.png"},
+    { img: "assets/page3_pour/page3_pour06.png"},
+    { img: "assets/page3_pour/page3_pour07.png"},
+    { img: "assets/page3_pour/page3_pour08.png"},
+    { img: "assets/page3_pour/page3_pour09.png"},
+    { img: "assets/page3_pour/page3_pour10.png"},
   ];
 
   page3Stage.classList.add("clickable");
@@ -362,6 +370,7 @@ if (page3Stage) {
 
   page3Stage.addEventListener("click", function () {
     let next = page3Steps[page3StepIndex + 1];
+
     if (!next) {
       return;
     }
