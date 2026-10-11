@@ -315,6 +315,50 @@ img{
   color: #f3e6c4;
 }
 
+/* the closing bonus: a looping sprite animation + a short cultural note, centered in the normal page grid */
+.finjan-wrap{
+  grid-column: span 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* the sprite sheet is a single row of 3 frames - background-size 300% 100%
+   blows the whole sheet up to 3x its width (height unchanged), so one
+   frame now fills this box */
+.finjan-dance{
+  width: 180px;
+  height: 239px;
+  background-image: url("assets/shake-dance-spritesheet.png");
+  background-size: 300% 100%;
+  animation: finjan-dance 0.8s steps(1) infinite;
+}
+
+/* used this documentation to learn about the steps() easing function: https://developer.mozilla.org/en-US/docs/Web/CSS/easing-function/steps */
+/* steps(1) jumps straight to each keyframe's position instead of sliding
+   smoothly between them. goes frame 1 -> 2 -> 3 -> 2 and loops, instead of 
+   1 -> 2 -> 3 -> (jump straight back to) 1 */
+@keyframes finjan-dance{
+  0%{ background-position: 0% 0%; }
+  25%{ background-position: 50% 0%; }
+  50%{ background-position: 100% 0%; }
+  75%{ background-position: 50% 0%; }
+}
+
+.finjan-caption{
+  font-family: "Alfa Slab One", serif;
+  font-size: 1.3rem;
+}
+
+.finjan-fact{
+  max-width: 500px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
 /* interactions */
 
 /* click to swap the picture */
