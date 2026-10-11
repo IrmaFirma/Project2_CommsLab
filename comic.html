@@ -25,6 +25,8 @@
 
   <main>
 
+<main>
+
     <!-- PAGE 1: a click-through, narrated sequence  -->
     <!-- "stage" holds one picture at a time; clicking or, for some steps, waiting advances
          it to the next panel in the page.  -->
@@ -53,13 +55,6 @@
 
     </section>
 
-    <!-- COFFEE FLOOD: click the picture and the coffee rises by itself -->
-    <section class="page page-stage" id="page-flood">
-      <figure class="panel">
-        <img id="flood-img" src="assets/flood1.jpg">
-      </figure>
-    </section>
-
     <!-- PAGE 2: the owl -->
     <!-- "page-stage" isn't the stage from page 1 - just regular look reused
          since page 2 is just one full-width panel for now -->
@@ -70,9 +65,11 @@
            pathway the reader picks comes later. -->
       <div class="p-owl-wrap">
 
-        <!-- panel 1: click to move on to the choice -->
+        <!-- panel 1: click to move on to the choice. the cape is a separate
+             layer on top so it can flutter on hover without moving him -->
         <figure class="panel p-owl" id="owl-panel">
           <img src="assets/page2_panel1_capeless.png">
+          <img class="cape-layer" src="assets/page2_panel1_cape.png" alt="">
         </figure>
 
         <!-- the two choices, hidden until panel 1 is clicked -->
@@ -90,6 +87,13 @@
 
       </div>
 
+    </section>
+
+    <!-- COFFEE FLOOD: click the picture and the coffee rises by itself -->
+    <section class="page page-stage" id="page-flood">
+      <figure class="panel">
+        <img id="flood-img" src="assets/flood1.jpg">
+      </figure>
     </section>
 
   </main>
