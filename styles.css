@@ -94,6 +94,8 @@ img{
   background: #12151c;
 }
 
+/* used this documentation to learn about the object-fit property in css: https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit */
+/* "cover" fills the box without stretching the picture - it crops instead of squishing it to fit */
 .panel img{
   width: 100%;
   height: 100%;
@@ -108,6 +110,8 @@ img{
   overflow: hidden;
 }
 
+/* used this documentation to learn about the aspect-ratio property in css: https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio */
+/* keeps the stage at a fixed 16:9 shape no matter how wide the page is, instead of it changing height with the content */
 .stage{
   position: relative;
   width: 100%;
@@ -230,6 +234,35 @@ img{
   pointer-events: none;
 }
 
+/* the cape overlay: page2_panel1_cape.png is the same canvas as page2_panel1_capeless.png, 
+   already drawn in place on the man - so it just needs to sit exactly on top */
+#owl-panel img.cape-layer{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* used this documentation to learn about the transform-origin property in css: https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin */
+  /* pivot for the flutter below: (773, 386) converted to the % transform-origin uses */
+  transform-origin: 53.09% 47.3%;
+  /* let clicks on the panel pass through to the panel itself */
+  pointer-events: none;
+}
+
+/* used this documentation to learn about @keyframes: https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes */
+/* flutters only while hovering panel 1 */
+@keyframes cape-flutter{
+  0%, 100%{ transform: rotate(-3deg) skewX(3deg); }
+  25%{ transform: rotate(2deg) skewX(-2deg); }
+  50%{ transform: rotate(-2deg) skewX(4deg); }
+  75%{ transform: rotate(3deg) skewX(-3deg); }
+}
+/* used this documentation to learn about the animation property in css: https://developer.mozilla.org/en-US/docs/Web/CSS/animation */
+/* "infinite" keeps it looping as long as the hover lasts, instead of playing once and stopping */
+#owl-panel:hover img.cape-layer{
+  animation: cape-flutter 1.4s ease-in-out infinite;
+}
+
 .choice-row{
   display: flex;
   align-items: center;
@@ -291,6 +324,9 @@ img{
   transition: transform 0.3s;
 }
 
+/* used this documentation to learn about the :not() pseudo-class in css: https://developer.mozilla.org/en-US/docs/Web/CSS/:not */
+/* ":not(.stage)" matches every panel except the stage - the stage needs the extra
+   has-caption/show-caption conditions below instead of revealing on every hover */
 /* TEMPORARY CODE: only reveal for a step that "has-caption" for those */
 .panel:not(.stage):hover figcaption,
 .panel.stage.has-caption:hover figcaption,
