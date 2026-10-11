@@ -334,6 +334,10 @@ function nextFloodPicture() {
 
   if (floodNumber === floodPictures.length - 1) {
     clearInterval(floodTimer);
+
+    // right now so there's nothing after it to scroll to, but this keeps
+    // it consistent with the other pages for whenever one is added
+    autoScrollToNextPage(floodImg.closest(".page"), 2000);
   }
 }
 
