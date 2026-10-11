@@ -385,7 +385,7 @@ img{
 /* ":not(.stage)" matches every panel except the stage - the stage needs the extra
    has-caption/show-caption conditions below instead of revealing on every hover */
 /* TEMPORARY CODE: only reveal for a step that "has-caption" for those */
-.panel:not(.stage):hover figcaption,
+.panel:not(.stage):not(.flood-panel):hover figcaption,
 .panel.stage.has-caption:hover figcaption,
 .panel.show-caption figcaption{
   transform: translateY(0);
@@ -398,11 +398,15 @@ img{
 }
 
 /* the figcaption moves to the right-hand corner for some lines*/
-#stage-caption.caption-right{
+.panel figcaption.caption-right{
   left: auto;
   right: 0;
   border-right: none;
   border-left: 4px solid #12151c;
+}
+
+#page3-caption{
+  z-index: 4;
 }
 
 /* branching ending, and the hidden second picture in swap panels */
@@ -540,4 +544,8 @@ img{
 
 .how-to li{
   margin-bottom: 0.4rem;
+}
+
+.flood-panel {
+  cursor: pointer
 }

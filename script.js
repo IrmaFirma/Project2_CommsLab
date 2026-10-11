@@ -353,15 +353,16 @@ if (page3Stage) {
   let page3ActiveLayer = page3LayerA;
   let page3InactiveLayer = page3LayerB;
 
+  let page3Caption = document.getElementById("page3-caption");
   let page3StepIndex = 0;
   let page3Steps = [
     { img: "assets/page3_panel1.png" },
     { img: "assets/page3_pour/page3_pour01.png"},
     { img: "assets/page3_pour/page3_pour02.png"},
     { img: "assets/page3_pour/page3_pour03.png"},
-    { img: "assets/page3_pour/page3_pour04.png"},
+    { img: "assets/page3_pour/page3_pour04.png", line: "Wait, how do I say I've had enough?", side: "right"},
     { img: "assets/page3_pour/page3_pour05.png"},
-    { img: "assets/page3_pour/page3_pour06.png"},
+    { img: "assets/page3_pour/page3_pour06.png", line: "Traditional etiquette dictates you must gently shake the cup (hazz el-fenjan) from side to side to signal you are done. Aziza intentionally withheld this rule.", side: "left"},
     { img: "assets/page3_pour/page3_pour07.png"},
     { img: "assets/page3_pour/page3_pour08.png"},
     { img: "assets/page3_pour/page3_pour09.png"},
@@ -403,6 +404,14 @@ if (page3Stage) {
     page3SwapImage(next.img);
     page3StepIndex = page3StepIndex + 1;
 
+    if (next.line) {
+      page3Caption.textContent = next.line;
+      page3Caption.classList.toggle("caption-right", next.side === "right")
+      page3Stage.classList.add("show-caption");
+    } else {
+      page3Stage.classList.remove("show-caption")
+    }
+
     // page3SwapImage already swapped the layer references above, so
     // page3InactiveLayer now points at the picture that just zoomed out -
     // clean its zoom-out class off once the transition is done
@@ -424,39 +433,63 @@ if (page3Stage) {
 // read more about clearInterval here: https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval
 // read more about setInterval here: https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval
 
-
+let floodPanel = document.getElementById("flood-panel");
 let floodImg = document.getElementById("flood-img");
-let floodPictures = ["assets/flood1.jpg", "assets/flood2.jpg", "assets/flood3.jpg", "assets/flood4.jpg"];
+let floodCaption = document.getElementById("flood-caption")
+
+let floodSteps = [
+  { img: "assets/flood1.jpg", line: "Aziza! Stop them! It’s spilling everywhere!", delay: 1000, side: "right"},
+  { img: "assets/flood2.jpg", line: "Oh, dear... didn't you know? Etiquette is everything.", delay: 1000, side: "left"},
+  { img: "assets/flood3.jpg", line: "", delay: 1000, side: "right"},
+  { img: "assets/flood4.jpg", line: "", delay: 1000, side: "right"},
+]
+
 let floodNumber = 0;
-let floodTimer = null;
+let floodStarted = false;
 
 // load all three images right away so there is
 // no blank black screen when they are changing
-for (let i = 0; i < floodPictures.length; i = i + 1) {
+for (let i = 0; i < floodSteps.length; i = i + 1) {
   let preload = new Image();
-  preload.src = floodPictures[i];
+  preload.src = floodSteps[i].img;
 }
 
-// show the next image, and stop after the last one
-function nextFloodPicture() {
-  floodNumber = floodNumber + 1;
-  floodImg.src = floodPictures[floodNumber];
-
-  if (floodNumber === floodPictures.length - 1) {
-    clearInterval(floodTimer);
-    // the flood has played all the way through - this is the last page so scroll
-    autoScrollToNextPage(floodImg.closest(".page"), 2000);
+function showFloodLine(step) {
+  if (step.line) {
+    floodCaption.textContent = step.line;
+    floodCaption.classList.toggle("caption-right", step.side === "right")
+    floodPanel.classList.add("show-caption");
+  } else {
+    floodPanel.classList.remove("show-caption");
   }
 }
 
-// start flipping every 700 milliseconds (only if it hasn't started already)
+function playNextFlood() {
+  let next = floodSteps[floodNumber + 1];
+  if (!next) {
+    autoScrollToNextPage(floodPanel.closest(".page"), 3500)
+    return;
+  }
+
+  setTimeout(function () {
+    floodNumber += 1;
+    floodImg.src = next.img;
+    showFloodLine(next);
+    playNextFlood();
+  }, next.delay)
+}
+
 function startFlood() {
-  if (floodTimer === null) {
-    floodTimer = setInterval(nextFloodPicture, 700);
+  if (floodStarted) {
+    return;
   }
+
+  floodStarted = true;
+  playNextFlood();
 }
 
-floodImg.addEventListener("click", startFlood);
+showFloodLine(floodSteps[0])
+floodPanel.addEventListener("click", startFlood);
 
 
 // 6. PAGE 5: THE ENDING
