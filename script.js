@@ -236,6 +236,12 @@ if (stage) {
 
 // 2. PAGE 2: PANEL 1 FADES INTO THE TWO CHOICES
 
+// which choice the reader picked here, "A" or "B" - page 5 at the end reads
+// this to decide which pair of ending panels to play. starts out null since
+// nothing's been picked yet; page 5 falls back to "A" if it's ever reached
+// without this being set
+let storyPath = null;
+
 // panel 1 starts covering the whole area. clicking it fades it out and
 // fades the two choice panels in, in the same spot. which pathway the
 // reader picks comes later - for now this just handles the transition
@@ -253,16 +259,20 @@ if (owlPanel && choiceRow) {
   });
 }
 
-// picking either choice is "done" with page 2 for now, even though which
-// pathway it leads to isn't built yet - so that's what triggers the
-// auto-scroll on to the next page
+// picking a choice records which path it was (for page 5, later) and is "done" 
+// with page 2 which is what triggers the auto-scroll on to the next page
 if (choiceA && choiceB) {
-  function handleChoicePicked() {
+  function handleChoicePicked(path) {
+    storyPath = path;
     autoScrollToNextPage(choiceA.closest(".page"), 2000);
   }
 
-  choiceA.addEventListener("click", handleChoicePicked);
-  choiceB.addEventListener("click", handleChoicePicked);
+  choiceA.addEventListener("click", function () {
+    handleChoicePicked("A");
+  });
+  choiceB.addEventListener("click", function () {
+    handleChoicePicked("B");
+  });
 }
 
 
@@ -319,7 +329,10 @@ if (buttonA && buttonB) {
 
 // 5. PAGE 3: PANEL 1 ZOOMS INTO PANEL 2, THEN CROSSFADES INTO PANEL 3
 
-// same two-layer crossfade setup as page 1's stage, reusing the same .stage/.stage-layer CSS
+// same two-layer crossfade setup as page 1's stage, reusing the same
+// .stage/.stage-layer CSS - but only two clicks here and no captions.
+// the first click (panel 1 -> panel 2) gets a "zoom" transition instead of
+// the plain fade the second click (panel 2 -> panel 3) uses
 let page3Stage = document.getElementById("page3-stage");
 
 if (page3Stage) {
@@ -363,7 +376,7 @@ if (page3Stage) {
     page3StepIndex = page3StepIndex + 1;
 
     // page3SwapImage already swapped the layer references above, so
-    // page3InactiveLayer now points at the picture that just zoomed out
+    // page3InactiveLayer now points at the picture that just zoomed out -
     // clean its zoom-out class off once the transition is done
     setTimeout(function () {
       page3InactiveLayer.classList.remove("zoom-out");
@@ -403,9 +416,7 @@ function nextFloodPicture() {
 
   if (floodNumber === floodPictures.length - 1) {
     clearInterval(floodTimer);
-
-    // right now so there's nothing after it to scroll to, but this keeps
-    // it consistent with the other pages for whenever one is added
+    // the flood has played all the way through - this is the last page so scroll
     autoScrollToNextPage(floodImg.closest(".page"), 2000);
   }
 }
@@ -418,3 +429,77 @@ function startFlood() {
 }
 
 floodImg.addEventListener("click", startFlood);
+
+
+// 6. PAGE 5: THE ENDING
+
+// one click on panel 1 starts it - from there panel 2, then 3A/4A or 3B/4B
+// (whichever pair storyPath, set back on page 2, points to) play through
+// on their own, one after another, with no more clicks needed
+let page5Stage = document.getElementById("page5-stage");
+
+if (page5Stage) {
+  let page5LayerA = document.getElementById("page5-img-a");
+  let page5LayerB = document.getElementById("page5-img-b");
+  let page5ActiveLayer = page5LayerA;
+  let page5InactiveLayer = page5LayerB;
+  let page5StepIndex = 0;
+  let page5Steps = null;
+  let page5Started = false;
+
+  // same crossfade-by-swapping-layers idea as swapImage() in section 1
+  function page5SwapImage(src) {
+    page5InactiveLayer.src = src;
+    page5ActiveLayer.classList.remove("active");
+    page5InactiveLayer.classList.add("active");
+    let temp = page5ActiveLayer;
+    page5ActiveLayer = page5InactiveLayer;
+    page5InactiveLayer = temp;
+  }
+
+  // after the first click, every later step schedules the next one itself,
+  // the same delay-then-advance as the "auto" steps in section 1
+  function page5PlayNext() {
+    let next = page5Steps[page5StepIndex + 1];
+    if (!next) {
+      // page 5 is the ending - nothing comes after it right now, but this
+      // keeps it consistent with the other pages for whenever one is added
+      autoScrollToNextPage(page5Stage.closest(".page"), 2000);
+      return;
+    }
+
+    setTimeout(function () {
+      page5SwapImage(next.img);
+      page5StepIndex = page5StepIndex + 1;
+      page5PlayNext();
+    }, next.delay);
+  }
+
+  // builds the step list and kicks off playback - called from the click
+  // below, so storyPath already reflects whichever choice was picked on
+  // page 2, and the delays are timed from the click
+  function page5Start() {
+    if (page5Started) {
+      return;
+    }
+    page5Started = true;
+    page5Stage.classList.remove("clickable");
+
+    // used this documentation to learn about the conditional (ternary) operator: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator
+    // shorthand for an if/else that only picks a value - "A" is the fallback
+    // if this page is ever reached without storyPath having been set
+    let page5Path = storyPath === "B" ? "B" : "A";
+
+    page5Steps = [
+      { img: "assets/page5_panel1.png" },
+      { img: "assets/page5_panel2.png", delay: 1200 },
+      { img: "assets/page5_panel3" + page5Path + ".png", delay: 1800 },
+      { img: "assets/page5_panel4" + page5Path + ".png", delay: 1800 }
+    ];
+
+    page5PlayNext();
+  }
+
+  page5Stage.classList.add("clickable");
+  page5Stage.addEventListener("click", page5Start);
+}
