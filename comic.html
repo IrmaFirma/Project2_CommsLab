@@ -63,39 +63,33 @@
     </section>
 
     <!-- PAGE 2: the owl -->
-    <section class="page" id="page-2">
+    <!-- "page-stage" isn't the stage from page 1 - just regular look reused
+         since page 2 is just one full-width panel for now -->
+    <section class="page page-stage" id="page-2">
 
-      <!-- panel 4: click to put the cape on -->
-      <figure class="panel p-owl swap">
-        <img src="assets/4.png">
-        <img class="hidden" src="assets/6.png">
-      </figure>
+      <!-- panel 1 and the two choices share the same spot: panel 1 fades
+           out and the choices fade in over it when it's clicked. which
+           pathway the reader picks comes later. -->
+      <div class="p-owl-wrap">
 
-      <!-- panel 5 -->
-      <figure class="panel p-kneel">
-        <img src="assets/5.png">
-        <figcaption>Write the line here</figcaption>
-      </figure>
+        <!-- panel 1: click to move on to the choice -->
+        <figure class="panel p-owl" id="owl-panel">
+          <img src="assets/page2_panel1_capeless.png">
+        </figure>
 
-      <!-- panel 6 -->
-      <figure class="panel p-wand">
-        <img src="assets/6.png">
-      </figure>
+        <!-- the two choices, hidden until panel 1 is clicked -->
+        <div class="choice-row" id="choice-row">
+          <figure class="panel p-choice" id="choice-a">
+            <img src="assets/page2_optionA.jpg">
+            <figcaption>Choice A: Greed Over Bond</figcaption>
+          </figure>
 
-      <!-- the reader picks an ending -->
-      <div class="panel choice-box">
-        <p>What does he do?</p>
-        <button id="button-a">Option A</button>
-        <button id="button-b">Option B</button>
-      </div>
+          <figure class="panel p-choice" id="choice-b">
+            <img src="assets/page2_optionB.jpg">
+            <figcaption>Choice B: True Respect</figcaption>
+          </figure>
+        </div>
 
-      <!-- both endings start hidden, one shows when a button is clicked -->
-      <div class="panel p-ending hidden" id="end-a">
-        <p>Write ending A here</p>
-      </div>
-
-      <div class="panel p-ending hidden" id="end-b">
-        <p>Write ending B here</p>
       </div>
 
     </section>
