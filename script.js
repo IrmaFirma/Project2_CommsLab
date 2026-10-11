@@ -236,3 +236,36 @@ function showEndingB() {
 
 buttonA.addEventListener("click", showEndingA);
 buttonB.addEventListener("click", showEndingB);
+
+// FLOOD ANIMATION: click the image and it flips through the three images by itself
+
+let floodImg = document.getElementById("flood-img");
+let floodPictures = ["assets/flood1.jpg", "assets/flood2.jpg", "assets/flood3.jpg"];
+let floodNumber = 0;
+let floodTimer = null;
+
+// load all three images right away so there is
+// no blank black screen when they are changing
+for (let i = 0; i < floodPictures.length; i = i + 1) {
+  let preload = new Image();
+  preload.src = floodPictures[i];
+}
+
+// show the next image, and stop after the last one
+function nextFloodPicture() {
+  floodNumber = floodNumber + 1;
+  floodImg.src = floodPictures[floodNumber];
+
+  if (floodNumber === floodPictures.length - 1) {
+    clearInterval(floodTimer);
+  }
+}
+
+// start flipping every 700 milliseconds (only if it hasn't started already)
+function startFlood() {
+  if (floodTimer === null) {
+    floodTimer = setInterval(nextFloodPicture, 700);
+  }
+}
+
+floodImg.addEventListener("click", startFlood);
