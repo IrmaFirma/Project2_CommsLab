@@ -101,14 +101,105 @@ img{
   display: block;
 }
 
-/* page 1 */
-.p-home{
-  grid-column: span 6;
-  aspect-ratio: 16 / 7;
+/* page 1: narrated stage instead of a grid of panels */
+.page-stage{
+  display: block;
+  padding: 0;
+  overflow: hidden;
 }
-.p-hall, .p-meeting{
-  grid-column: span 3;
+
+.stage{
+  position: relative;
+  width: 100%;
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #12151c;
+}
+
+.stage.clickable{
+  cursor: pointer;
+}
+
+/* used this documentation to learn about the inset shorthand property in css: https://developer.mozilla.org/en-US/docs/Web/CSS/inset */
+.stage-layer{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.stage-layer.active{
+  opacity: 1;
+}
+
+/* placeholder smoke transition: two circles sliding in from the sides.
+   need to swap the circles for a real asset. */
+/* used this documentation to learn about the pointer-events property in css: https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events */
+.smoke{
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  opacity: 0;
+  /* lets clicks pass through the smoke to the stage underneath it */
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.smoke.active{
+  opacity: 1;
+}
+
+/* used this documentation to learn about the border-radius property in css: https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius */
+.smoke-circle{
+  position: absolute;
+  top: 50%;
+  width: 150%;
+  aspect-ratio: 1;
+  /* 50% on a square box turns it into a circle */
+  border-radius: 50%;
+  background: radial-gradient(circle, #a66ae0 0%, #6a2fae 55%, #3d1066 100%);
+  transition: transform 0.7s ease;
+}
+.smoke-circle.left{
+  left: -75%;
+  transform: translate(-100%, -50%);
+}
+.smoke-circle.right{
+  right: -75%;
+  transform: translate(100%, -50%);
+}
+.smoke.cover .smoke-circle.left{
+  transform: translate(-8%, -50%);
+}
+.smoke.cover .smoke-circle.right{
+  transform: translate(8%, -50%);
+}
+
+/* the opening line, shown over the smoke itself since there is no picture underneath yet for a figcaption to belong to */
+/* used this documentation to learn about the rgb()/rgba() color function in css: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgb */
+.smoke-line{
+  position: absolute;
+  left: 50%;
+  bottom: 10%;
+  z-index: 10;
+  max-width: 80%;
+  text-align: center;
+  /* rgba lets the background stay see-through instead of a solid color */
+  background: rgba(18, 15, 21, 0.88);
+  color: #f3e6c4;
+  border: 3px solid #d4a23a;
+  padding: 0.9rem 1.5rem;
+  font-family: "Alfa Slab One", serif;
+  font-size: 1.1rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.smoke-line.visible{
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 /* page 2 */
@@ -158,8 +249,26 @@ img{
   transform: translateY(110%);
   transition: transform 0.3s;
 }
-.panel:hover figcaption{
+
+/* TEMPORARY CODE: only reveal for a step that "has-caption" for those */
+.panel:not(.stage):hover figcaption,
+.panel.stage.has-caption:hover figcaption,
+.panel.show-caption figcaption{
   transform: translateY(0);
+}
+
+/* while switching corners, force the caption back down for a brief moment */
+/* used this documentation to learn about the !important rule in css: https://developer.mozilla.org/en-US/docs/Web/CSS/important */
+.panel.switching-side figcaption{
+  transform: translateY(110%) !important;
+}
+
+/* the figcaption moves to the right-hand corner for some lines*/
+#stage-caption.caption-right{
+  left: auto;
+  right: 0;
+  border-right: none;
+  border-left: 4px solid #12151c;
 }
 
 /* branching ending, and the hidden second picture in swap panels */
