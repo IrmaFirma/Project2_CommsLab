@@ -469,3 +469,31 @@ img{
   margin-bottom: 0;
   font-size: 0.95rem;
 }
+
+/* how to read box on the welcome page */
+.how-to{
+  max-width: 500px;
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+  text-align: left;
+  background: rgba(18, 21, 28, 0.7);
+  border: 3px solid #d4a23a;
+}
+
+.how-to h2{
+  font-family: "Alfa Slab One", serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: #d4a23a;
+  margin-bottom: 0.5rem;
+}
+
+
+.how-to ul{
+  list-style: none;
+}
+
+
+.how-to li{
+  margin-bottom: 0.4rem;
+}
