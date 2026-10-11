@@ -191,7 +191,25 @@ if (stage) {
 }
 
 
-// 2. CLICK TO SWAP THE PICTURE
+// 2. PAGE 2: PANEL 1 FADES INTO THE TWO CHOICES
+
+// panel 1 starts covering the whole area. clicking it fades it out and
+// fades the two choice panels in, in the same spot. which pathway the
+// reader picks comes later - for now this just handles the transition
+// between panel 1 and the choices (hover highlight + caption on each
+// choice is handled by styles.css alone, no JS needed for that part)
+let owlPanel = document.getElementById("owl-panel");
+let choiceRow = document.getElementById("choice-row");
+
+if (owlPanel && choiceRow) {
+  owlPanel.addEventListener("click", function () {
+    owlPanel.classList.add("faded");
+    choiceRow.classList.add("visible");
+  });
+}
+
+
+// 3. CLICK TO SWAP THE PICTURE
 
 // each swap panel has two pictures inside it, the second one starts hidden
 // this function makes a panel switch which picture is hidden when it is clicked
@@ -215,27 +233,31 @@ for (let i = 0; i < swapPanels.length; i = i + 1) {
 }
 
 
-// 3. PICK AN ENDING
+// 4. PICK AN ENDING
 
 // used this documentation to learn more about the classList property: https://mangohost.net/blog/javascript-classlist-how-to-manipulate-classes-easily/
 
+// guarded since button-a/button-b/end-a/end-b aren't in the page right now
+// the two choice panels in section 2 replace them for now and the real logic will come later
 let buttonA = document.getElementById("button-a");
 let buttonB = document.getElementById("button-b");
 let endingA = document.getElementById("end-a");
 let endingB = document.getElementById("end-b");
 
-function showEndingA() {
-  endingA.classList.remove("hidden");
-  endingB.classList.add("hidden");
-}
+if (buttonA && buttonB) {
+  function showEndingA() {
+    endingA.classList.remove("hidden");
+    endingB.classList.add("hidden");
+  }
 
-function showEndingB() {
-  endingB.classList.remove("hidden");
-  endingA.classList.add("hidden");
-}
+  function showEndingB() {
+    endingB.classList.remove("hidden");
+    endingA.classList.add("hidden");
+  }
 
-buttonA.addEventListener("click", showEndingA);
-buttonB.addEventListener("click", showEndingB);
+  buttonA.addEventListener("click", showEndingA);
+  buttonB.addEventListener("click", showEndingB);
+}
 
 // FLOOD ANIMATION: click the image and it flips through the three images by itself
 // used this to debug preloading images: https://stackoverflow.com/questions/3646036/preloading-images-with-javascript
