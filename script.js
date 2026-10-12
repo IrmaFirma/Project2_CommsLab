@@ -8,6 +8,16 @@ function autoScrollToNextPage(currentPage, delay) {
   if (!currentPage) {
     return;
   }
+if (currentPage.id==="page-flood" && storyPath === "A"){
+  let finjanPage = document.getElementById("page-finjan");
+  if (finjanPage){
+    setTimeout(function(){
+      finjanPage.scrollIntoView({behavior: "smooth", block: "center"});
+    }, delay);
+    return;
+  }
+}
+
 
   // used this documentation to learn about Element.nextElementSibling: https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling
   // it walks forward through the HTML one element at a time, which is how we
