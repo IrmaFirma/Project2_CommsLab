@@ -8,15 +8,15 @@ function autoScrollToNextPage(currentPage, delay) {
   if (!currentPage) {
     return;
   }
-if (currentPage.id==="page-flood" && storyPath === "A"){
-  let finjanPage = document.getElementById("page-finjan");
-  if (finjanPage){
-    setTimeout(function(){
-      finjanPage.scrollIntoView({behavior: "smooth", block: "center"});
-    }, delay);
-    return;
-  }
-}
+// if (currentPage.id==="page-flood" && storyPath === "A"){ //check if we have both sleected option A and are at flood
+//   let finjanPage = document.getElementById("page-finjan"); //grabs the final page instead of autoscrolling
+//   if (finjanPage){
+//     setTimeout(function(){
+//       finjanPage.scrollIntoView({behavior: "smooth", block: "center"}); //sets the transition to that page to a smoother one that is aligned with the center of the page
+//     }, delay);
+//     return; //block overriding from other code
+//   }
+// }
 
 
   // used this documentation to learn about Element.nextElementSibling: https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling
